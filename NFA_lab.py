@@ -37,27 +37,32 @@ class Libs(object):
                 
                     new_str = '('+str(chr)+'|ϕ)'
                     translation.append(new_str)
-                
+           
+            
+            
             elif e == '+':
-                chr = translation.pop()
-                if chr == ')':
-                    aux = [chr]
-                    sign_sum = 0
-                    while chr != '(' and sign_sum != -1:
-                        chr = translation.pop()
-                        if chr == ')':
-                            sign_sum += 1
-                        elif chr == '(':
-                            sign_sum -= 1
+                self.dicc['Ϙ'] = e
+                e = 'Ϙ'
+                translation.append(e)
+                # chr = translation.pop()
+                # if chr == ')':
+                #     aux = [chr]
+                #     sign_sum = 0
+                #     while chr != '(' and sign_sum != -1:
+                #         chr = translation.pop()
+                #         if chr == ')':
+                #             sign_sum += 1
+                #         elif chr == '(':
+                #             sign_sum -= 1
                             
-                        aux.insert(0,chr)
-                    aux_str = ''.join(aux)
-                    new_str = str(aux_str)+'('+str(aux_str)+'*)'
-                    translation.append(new_str)
-                else:
+                #         aux.insert(0,chr)
+                #     aux_str = ''.join(aux)
+                #     new_str = str(aux_str)+'('+str(aux_str)+'*)'
+                #     translation.append(new_str)
+                # else:
                     
-                    new_str = str(chr)+'('+str(chr)+'*)'
-                    translation.append(new_str)
+                #     new_str = str(chr)+'('+str(chr)+'*)'
+                #     translation.append(new_str)
             
             elif e == '.':
                 self.dicc['ϰ'] = e
@@ -69,20 +74,19 @@ class Libs(object):
                 e = 'ϕ'
                 translation.append(e)
             
-            
             else:
                 translation.append(e)
+            
+            
             
         string = ''.join(translation)
         
         # Balance verification
         for c in [char for char in string]:
-            
             if c == '(':
                 balance_score += 1
             elif c == ')':
                 balance_score -= 1
-            
         if balance_score != 0:
             print('---------------------------------------')
             print("ERROR: EXPRESIÓN DESBALANCEADA!!!")
@@ -142,6 +146,7 @@ class Libs(object):
                         postfix += stack.pop()
                     stack.pop()
                 except:
+                    print('Error en InfixPos')
                     print('---------------------------------------')
                     print("ERROR: EXPRESIÓN DESBALANCEADA!!!")
                     print('---------------------------------------')

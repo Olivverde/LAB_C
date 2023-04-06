@@ -6,6 +6,43 @@ class Lexer(object):
     def __init__(self) -> None:
         self.pre_exist_patterns = self.pre_fab()
 
+    def pre_load(self, path):
+        
+        with open(path) as file:
+            for line in file:
+                pos_status = False
+                if 'let' in line:
+                    pos_status = True
+                if 'tokens' in line and pos_status == False:
+                    print('---------------------------------------')
+                    print("ERROR: NO SE ENCONTRÓ EXPRESIONES REGULARES PREVIAS A LOS TOKENS!!!")
+                    print('---------------------------------------')
+                    raise SystemExit
+                if 'rule' in line:
+                    if not 'rule tokens =' in line:
+                        print('---------------------------------------')
+                        print("ERROR: EXPRESIÓN DE TOKEN NO RECONOCIDA!!!")
+                        print('---------------------------------------')
+                        raise SystemExit
+                if 'ids' in line:
+                    print('---------------------------------------')
+                    print("ERROR: TOKEN NO RECONOCIDO!!!")
+                    print('---------------------------------------')
+                    raise SystemExit
+                    
+                balance_score_paren = 0
+                balance_score_mark = 0
+                for c in [char for char in line]:
+                    if c == '(' or c == ')':
+                        balance_score_paren += 1
+                    if c == "'":
+                        balance_score_mark += 1
+                if balance_score_mark%2 != 0 or balance_score_paren%2 != 0:
+                    print('---------------------------------------')
+                    print("ERROR: EXPRESIÓN DESBALANCEADA!!!")
+                    print('---------------------------------------')
+                    raise SystemExit
+        
     def pre_fab(self):
         patterns_ax = { "'A'-'Z'": [chr(i) for i in range(ord('A'), ord('Z')+1)],
                               "'a'-'z'": [chr(i) for i in range(ord('a'), ord('z')+1)],
@@ -224,6 +261,7 @@ class Lexer(object):
 path = 'inputs/slr-1.yal'
 L = Lexer()
 patterns  = L.reader(path)
+L.pre_load(path)
 L.afn_union(patterns)
 
 
